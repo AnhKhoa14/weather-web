@@ -1,14 +1,16 @@
 <template>
-    <div class="space-y-8">
-        <h2 class="text-lg font-semibold my-8 text-white">Weather Forecast</h2>
-        <div class="grid grid-cols-[80px_160px_80px] gap-4 md:justify-items-start justify-items-center"
+    <div class="border-t border-t-white pt-10 pb-12">
+        <div>
+            <h2 class="text-lg font-semibold text-white">Weather Forecast</h2>
+        </div>
+        <div class="grid grid-cols-[repeat(2,clamp(4rem,10vw,5rem))_1fr] gap-4 py-5"
             v-for="({ time, condition, temperature }) in mockupData">
             <img src="./../assets/images/icon-snow.png" alt="" class="w-14">
             <div class="grid grid-rows-2 text-left">
-                <p class="text-white">{{ time }}</p>
+                <p class="text-white text-[18px]">{{ time }}</p>
                 <p class="text-white">{{ condition }}</p>
             </div>
-            <p class="text-right content-center text-white">{{ temperature }}°C</p>
+            <p class="content-center text-white text-[1.5rem] text-right">{{ temperature }}°</p>
         </div>
     </div>
 </template>

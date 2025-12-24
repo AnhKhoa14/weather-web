@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Home from './components/Home.vue';
-import SearchCity from './components/SearchCity.vue';
 import WeatherCard from './components/WeatherCard.vue';
 import { ref } from 'vue';
 
@@ -15,26 +14,14 @@ const handleLocationSelected = (coords: Coords) => {
 </script>
 
 <template>
-  <div class="grid h-screen overflow-hidden
+  <div class="grid h-screen overflow-hidden relative
          bg-[url('/assets/images/bg.jpg')] bg-cover bg-center bg-fixed
-         grid-cols-[minmax(2rem,_1fr) minmax(0, 800px) minmax(0, 400px) minmax(2rem,_1fr)]">
-    <div class="col-start-2 flex h-screen flex-col md:flex-row gap-6">
-      <section class="flex-[3] md:flex-1 p-6">
-        <Home :location="selectedLocation" />
-      </section>
-
-      <section class="flex-[7] md:w-5/12 md:flex-none
-         backdrop-blur-[19px] bg-white/30 p-6
-         overflow-y-auto scrollbar-hide">
-        <div class="hidden md:block">
-          <SearchCity @location-selected="handleLocationSelected" />
-        </div>
-
-        <WeatherCard :location="selectedLocation" />
-      </section>
-
+         grid-cols-[minmax(2rem,1fr)_minmax(0,800px)_minmax(0,400px)_minmax(2rem,1fr)]">
+    <Home :location="selectedLocation" />
+    <div
+      class="pointer-events-none col-start-3 col-end-5 row-start-1 row-end-3 h-full w-full absolute inset-0 ml-auto
+             backdrop-blur-[0.5em] bg-white/10 border-s-[5px] border-s-white/10">
     </div>
+    <WeatherCard :location="selectedLocation" @location-selected="handleLocationSelected" />
   </div>
-
-
 </template>

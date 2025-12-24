@@ -118,3 +118,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Hide scrollbar but keep scrolling (cross-browser) */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and old Edge */
+    scrollbar-width: none;    /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;            /* Chrome, Safari */
+  }
+}
