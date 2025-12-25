@@ -1,32 +1,31 @@
 <!-- tìm kiếm thành phố -->
 <template>
-  <div class="relative">
-    <form action="" class="relative mb-6" @submit.prevent="handleSearch">
-      <Input v-model="searchQuery" type="text" placeholder="Search Location..." @keyup.enter="handleSearch"
-        @input="getLocation" class="text-white border-b-white border-b-2 pr-10" />
-
-      <div class="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
-
-        <img v-if="searchQuery.length === 0" src="./../assets/images/icons8-search.png" alt="Search" class="w-5 h-5" />
-
-        <img v-else src="./../assets/images/icons8-x.png" alt="Clear" class="w-5 h-5" @click="clearSearch" />
-
-      </div>
-    </form>
-    <!-- <p v-if="loading" class="text-white">Loading...</p> -->
-    <Spinner v-if="loading" class="absolute bottom-0.5 left-1/2 -translate-x-1/2 text-ư" />
-  </div>
+  <form action="" class="flex items-center cursor-auto top-0 right-0 absolute justify-between pb-1 md:pb-0 md:relative md:col-[unset] md:row-[unset]
+    col-start-2 col-end-2 row-start-2 row-end-2 border-b border-white md:h-10 h-7" @submit.prevent="handleSearch">
+    <Input v-model="searchQuery" type="text" placeholder="Search Location..." @keyup.enter="handleSearch"
+      class="text-white pr-10 md:px-1 md:py-0 md:h-8 text-xs w-[unset]" />
+    <img v-if="searchQuery.length === 0" src="./../assets/images/icons8-search.png" alt="Search"
+      class="md:w-7 w-3 justify-end cursor-pointer" />
+    <img v-else src="./../assets/images/icons8-x.png" alt="Clear" class="md:w-7 w-3 justify-end cursor-pointer"
+      @click="clearSearch" />
+  </form>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Input } from '@/components/ui/input'
-import { Spinner } from '@/components/ui/spinner'
 
 const searchQuery = ref('');
 const loading = ref(false);
 
 const emit = defineEmits(['location-selected']);
+const hasCurrentLocation = ref(false);
+onMounted(() => {
+  if (!hasCurrentLocation.value) {
+    getLocation();
+    hasCurrentLocation.value = true;
+  }
+});
 
 const handleSearch = async () => {
   if (!searchQuery.value.trim()) return
@@ -63,6 +62,27 @@ const getCoords = async (address: string) => {
   }
 }
 
+const getCityFromCoords = async (lat: number, lon: number) => {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+    )
+    const data = await res.json()
+
+    const city =
+      data.address?.city ||
+      data.address?.town ||
+      data.address?.village ||
+      data.address?.state
+    console.log("Reverse geocoding result:", data)
+    return city || null
+  } catch (err) {
+    console.error('Reverse geocoding error:', err)
+    return null
+  }
+}
+
+
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -70,12 +90,27 @@ function getLocation() {
     console.error("Geolocation is not supported by this browser.");
   }
 }
-function showPosition(position: GeolocationPosition) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
+async function showPosition(position: GeolocationPosition) {
+  const lat = position.coords.latitude
+  const lon = position.coords.longitude
 
-  console.log("Latitude: " + latitude);
-  console.log("Longitude: " + longitude);
+  loading.value = true
+
+  const city = await getCityFromCoords(lat, lon)
+
+  loading.value = false
+
+  if (city) {
+    searchQuery.value = city
+
+    emit('location-selected', {
+      lat,
+      lon,
+      name: city
+    })
+
+    console.log('Vị trí hiện tại:', city)
+  }
 }
 
 function showError(error: GeolocationPositionError) {
