@@ -1,5 +1,5 @@
 <template>
-  <section class="md:aspect-[unset] aspect-5/3 col-start-2 row-start-2 relative">
+  <section class="lg:aspect-[unset] aspect-5/3 col-start-2 row-start-2 relative">
     <div class="flex items-center justify-between gap-4 md:gap-0 md:block">
       <a href="/" class="inline-block">
         <img src="~assets/images/logo.svg" alt="" class="md:w-20 w-10">

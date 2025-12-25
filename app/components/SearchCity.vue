@@ -1,12 +1,13 @@
 <!-- tìm kiếm thành phố -->
 <template>
-  <form action="" class="flex items-center cursor-auto top-0 right-0 absolute justify-between pb-1 md:pb-0 md:relative md:col-[unset] md:row-[unset]
+  <form action="" class="flex items-center cursor-auto top-0 right-0 bottom-auto left-auto absolute justify-between pb-1 
+    lg:pb-0 lg:relative lg:col-[unset] lg:row-[unset]
     col-start-2 col-end-2 row-start-2 row-end-2 border-b border-white md:h-10 h-7" @submit.prevent="handleSearch">
     <Input v-model="searchQuery" type="text" placeholder="Search Location..." @keyup.enter="handleSearch"
       class="text-white pr-10 md:px-1 md:py-0 md:h-8 text-xs w-[unset]" />
     <img v-if="searchQuery.length === 0" src="./../assets/images/icons8-search.png" alt="Search"
-      class="md:w-7 w-3 justify-end cursor-pointer" />
-    <img v-else src="./../assets/images/icons8-x.png" alt="Clear" class="md:w-7 w-3 justify-end cursor-pointer"
+      class="lg:w-7 w-3 justify-end cursor-pointer" />
+    <img v-else src="./../assets/images/icons8-x.png" alt="Clear" class="lg:w-7 w-3 justify-end cursor-pointer"
       @click="clearSearch" />
   </form>
 </template>
@@ -45,7 +46,11 @@ const handleSearch = async () => {
 const getCoords = async (address: string) => {
   try {
     const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36'
+      }
+    }
     );
     const data = await res.json();
 
@@ -65,7 +70,11 @@ const getCoords = async (address: string) => {
 const getCityFromCoords = async (lat: number, lon: number) => {
   try {
     const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36'
+      }
+    }
     )
     const data = await res.json()
 
