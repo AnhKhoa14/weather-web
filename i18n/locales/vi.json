@@ -1,0 +1,11 @@
+{
+  "weatherDetails": "Chi tiết thời tiết",
+  "tempMax": "Nhiệt độ cao nhất",
+  "tempMin": "Nhiệt độ thấp nhất",
+  "humidity": "Độ ẩm",
+  "cloudy": "Nhiều mây",
+  "wind": "Gió",
+  "weatherForecast": "Dự báo thời tiết",
+  "snow": "Tuyết",
+  "searchPlaceholder": "Tìm kiếm địa điểm..."
+}

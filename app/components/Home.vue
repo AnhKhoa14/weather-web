@@ -4,6 +4,7 @@
       <a href="/" class="inline-block">
         <img src="~assets/images/logo.svg" alt="" class="md:w-20 w-10">
       </a>
+      <LanguageSwitcher />
     </div>
     <article data-positon="true" v-if="weather" class="absolute left-0 bottom-8 md:bottom-[11%] inline-grid grid-flow-col items-center 
          gap-[clamp(0.5rem,2vw,2rem)] leading-[1.2]">
@@ -30,6 +31,9 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
+const { locale } = useI18n({ useScope: 'global' });
+import LanguageSwitcher from './LanguageSwitcher.vue';
+
 type Coords = { lat: string | number; lon: string | number; name?: string };
 
 const props = defineProps<{ location: Coords | null }>()
@@ -45,7 +49,6 @@ const fetchWeather = async () => {
     weather.value = await $fetch('/api/weather', {
       params: { lat: props.location.lat, lon: props.location.lon },
     })
-    console.log("Weather data:", weather.value)
   } catch (e) {
     console.error(e)
     error.value = 'Failed to fetch weather data.'
@@ -62,12 +65,20 @@ watch(
   { immediate: true }
 )
 
+const localeMap: Record<string, string> = {
+  en: 'en-US',
+  vi: 'vi-VN',
+  ja: 'ja-JP'
+}
+
 const formatTime = (timestamp?: number) => {
   if (!timestamp) return ''
   const date = new Date(timestamp * 1000)
-  const weekday = date.toLocaleDateString('en-US', { weekday: 'short' })
-  const day = date.toLocaleDateString('en-US', { day: '2-digit' })
-  const month = date.toLocaleDateString('en-US', { month: 'short' })
+
+  const intLocale = localeMap[locale.value] || 'en-US'
+  const weekday = date.toLocaleDateString(intLocale, { weekday: 'short' })
+  const day = date.toLocaleDateString(intLocale, { day: '2-digit' })
+  const month = date.toLocaleDateString(intLocale, { month: 'short' })
   const year = date.getFullYear()
   const hours = date.getHours().toString().padStart(2, '0')
   const minutes = date.getMinutes().toString().padStart(2, '0')

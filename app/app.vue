@@ -1,7 +1,21 @@
 <script setup lang="ts">
+useHead({
+  title: 'Weather Web',
+  meta: [
+    { name: 'description', content: 'A simple weather application built with Nuxt 3 and Vue 3' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { property: 'og:image', content: logo },
+  ],
+  link: [
+    { rel: 'icon', type: 'image/svg+xml', href: logo },
+  ],
+})
+
 import Home from './components/Home.vue';
 import WeatherCard from './components/WeatherCard.vue';
 import { ref } from 'vue';
+import logo from '~/assets/images/logo.svg'
+
 
 type Coords = { lat: string | number; lon: string | number; name?: string };
 
@@ -23,7 +37,7 @@ const handleLocationSelected = (coords: Coords) => {
 
     md:grid-cols-[minmax(2rem,1fr)_clamp(41rem,90vw,45rem)_minmax(2rem,1fr)]
 
-    lg:grid-cols-[minmax(2rem,1fr)_minmax(0,43.3333333333em)_minmax(0,21.6666666667em)_minmax(2rem,1fr)]
+    lg:grid-cols-[minmax(2rem,1fr)_minmax(0,44em)_minmax(0,25em)_minmax(2rem,1fr)]
     lg:grid-rows-[2rem_1fr]
 
     xl:grid-cols-[minmax(2rem,1fr)_minmax(0,800px)_minmax(0,400px)_minmax(2rem,1fr)]

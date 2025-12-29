@@ -1,8 +1,8 @@
 <!-- hiện thị nhiệt độ, độ ẩm -->
 <template>
   <aside class="grid z-1 overflow-y-auto scrollbar-hide mt-4
-         col-start-2 row-start-3 sm:justify-center 
-
+         col-start-2 row-start-3 sm:justify-center
+      
          lg:col-start-3 lg:row-start-2 lg:mt-0 lg:ps-12 lg:justify-stretch
          lg:h-[calc(100vh-3rem)]">
     <SearchCity @location-selected="handleLocationSelected" />
@@ -12,36 +12,35 @@
     <div v-else-if="error" class="text-sm text-white">{{ error }}</div>
     <div v-else-if="weather" class="space-y-8 md:text-left pt-9 pb-12">
       <div>
-        <h2 class="text-sm md:text-lg font-semibold text-white mb-12 text-center sm:text-center lg:text-left">Weather
-          Details</h2>
+        <h2 class="text-sm md:text-lg font-semibold text-white mb-12 text-center sm:text-center lg:text-left">{{ $t('weatherDetails') }}</h2>
       </div>
       <div class="space-y-9">
         <p class="uppercase font-bold text-sm md:text-lg text-white text-center sm:text-center lg:text-left">{{
           weather.weather?.[0]?.description }}</p>
         <div class="grid grid-cols-[1fr_repeat(2,3rem)] items-center gap-4 w-full justify-items-stretch">
-          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">Temp max</p>
+          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">{{ $t('tempMax') }}</p>
           <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-end">{{ weather.main?.temp_max?.toFixed(1)
           }}°</p>
           <img src="./../assets/images/icons8-temp-max.png" alt="" class="w-7 md:col-span-1 justify-self-end">
         </div>
         <div class="grid grid-cols-[1fr_repeat(2,3rem)] items-center gap-4 w-full justify-items-stretch">
-          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">Temp min</p>
+          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">{{ $t('tempMin') }}</p>
           <p class=" text-white md:col-span-1 text-sm md:text-lg justify-self-end">{{ weather.main?.temp_min?.toFixed(1)
           }}°</p>
           <img src="./../assets/images/icons8-temp-min.png" alt="" class="w-7 md:col-span-1 justify-self-end">
         </div>
         <div class="grid grid-cols-[1fr_repeat(2,3rem)] items-center gap-4 w-full justify-items-stretch">
-          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">Humidity</p>
+          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">{{ $t('humidity') }}</p>
           <p class=" text-white md:col-span-1 text-sm md:text-lg justify-self-end">{{ weather.main?.humidity }}%</p>
           <img src="./../assets/images/icons8-water.png" alt="" class="w-7 md:col-span-1 justify-self-end">
         </div>
         <div class="grid grid-cols-[1fr_repeat(2,3rem)] items-center gap-4 w-full justify-items-stretch">
-          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">Cloudy</p>
+          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">{{ $t('cloudy') }}</p>
           <p class=" text-white md:col-span-1 text-sm md:text-lg justify-self-end">{{ weather.clouds?.all }}%</p>
           <img src="./../assets/images/icons8-cloud.png" alt="" class="w-7 md:col-span-1 justify-self-end">
         </div>
         <div class="grid grid-cols-[1fr_repeat(2,3rem)] items-center gap-4 w-full justify-items-stretch">
-          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">Wind</p>
+          <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-start">{{ $t('wind') }}</p>
           <p class="text-white md:col-span-1 text-sm md:text-lg justify-self-end">{{ weather.wind?.speed }}m/s</p>
           <img src="./../assets/images/icons8-wind.png" alt="" class="w-7 md:col-span-1 justify-self-end">
         </div>
@@ -81,7 +80,6 @@ const fetchWeather = async () => {
     weather.value = await $fetch('/api/weather', {
       params: { lat: props.location.lat, lon: props.location.lon },
     })
-    console.log("Weather data:", weather.value)
   } catch (e) {
     console.error(e)
     error.value = 'Failed to fetch weather data.'

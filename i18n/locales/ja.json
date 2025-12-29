@@ -1,0 +1,11 @@
+{
+  "weatherDetails": "天気の詳細",
+  "tempMax": "最高気温",
+  "tempMin": "最低気温",
+  "humidity": "湿度",
+  "cloudy": "曇り",
+  "wind": "風",
+  "weatherForecast": "天気予報",
+  "snow": "雪",
+  "searchPlaceholder": "場所を検索..."
+}

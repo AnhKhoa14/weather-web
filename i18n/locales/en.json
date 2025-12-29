@@ -1,0 +1,11 @@
+{
+    "weatherDetails": "Weather Details",
+    "tempMax": "Temp max",
+    "tempMin": "Temp min",
+    "humidity": "Humidity",
+    "cloudy": "Cloudy",
+    "wind": "Wind",
+    "weatherForecast": "Weather Forecast",
+    "snow": "Snow",
+    "searchPlaceholder": "Search Location..."
+}
